@@ -14,19 +14,19 @@ import java.util.List;
 public class StringController {
 
 
-    /**
-     * 设置或更新
-     * @param key
-     * @param value
-     * @return
-     */
-    @GetMapping("/set")
-    public ResponseEntity set(@RequestParam("key") String key, @RequestParam("value") String value){
-        Assert.notNull(key, "key is not null");
-        Assert.notNull(value, "value is not null");
-
-        return ResponseEntity.ok("OK");
-    }
+//    /**
+//     * 设置或更新
+//     * @param key
+//     * @param value
+//     * @return
+//     */
+//    @GetMapping("/set")
+//    public ResponseEntity set(@RequestParam("key") String key, @RequestParam("value") String value){
+//        Assert.notNull(key, "key is not null");
+//        Assert.notNull(value, "value is not null");
+//
+//        return ResponseEntity.ok("OK");
+//    }
 
     /**
      * 获取指定 key 的值。
