@@ -101,17 +101,15 @@ public class KeyController {
         return ResponseEntity.ok("OK");
     }
 
-    /**
-     * 随机返回一个key
-     * @param key
-     * @return
-     */
-    @GetMapping("/randomKey")
-    public ResponseEntity randomKey(@RequestParam("key") String key){
-        Assert.notNull(key, "key is not null");
-
-        return ResponseEntity.ok("OK");
-    }
+//    /**
+//     * 随机返回一个key
+//     * @return
+//     */
+//    @GetMapping("/randomKey")
+//    public ResponseEntity randomKey(){
+//
+//        return ResponseEntity.ok("OK");
+//    }
 
     /**
      * 仅当 newkey 不存在时, 给key重命名

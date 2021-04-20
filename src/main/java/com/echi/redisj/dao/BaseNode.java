@@ -6,6 +6,7 @@ package com.echi.redisj.dao;
  */
 public abstract class BaseNode<T> implements Node<T>{
 
+    NodeHolder holder;
     Long exprieTime = -1L;
 
     @Override
@@ -31,7 +32,6 @@ public abstract class BaseNode<T> implements Node<T>{
     public boolean presist() {
         try {
             if (exprieTime != -1 && exprieTime < System.currentTimeMillis()) {
-                // remove this
                 return false;
             }
             exprieTime = -1L;
