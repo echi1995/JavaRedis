@@ -134,54 +134,111 @@ public class StringService {
         return true;
     }
 
-    public void setRange(String key, String offset,String value){
+    public boolean setRange(String key, int offset,String value){
         Assert.notNull(key, "key is not null");
         Assert.notNull(offset, "offset is not null");
         Assert.notNull(value, "value is not null");
-
-    }
-
-    public void strLen(String key){
-        Assert.notNull(key, "key is not null");
-
-    }
-
-    public void mSet( List<String[]> keys){
-        Assert.notNull(keys, "key is not null");
-
-    }
-
-    public void mSetNX(List<String[]> keys){
-        Assert.notNull(keys, "key is not null");
-
-    }
-
-    public void incr(String key){
-        Assert.notNull(key, "key is not null");
-
-    }
-
-    public void incrBy(String key,Integer increment){
-        Assert.notNull(key, "key is not null");
-        Assert.notNull(increment, "increment is not null");
-
-    }
-
-    public void decr(String key){
-        Assert.notNull(key, "key is not null");
-
-    }
-
-    public void decrBy(String key, Integer increment){
-        Assert.notNull(key, "key is not null");
-        Assert.notNull(increment, "increment is not null");
+        Node node = holder.get(key);
+        if (!NodeTypeEnum.STRING.equals(node.type())) {
+            return false;
+        }
+        String string = (String)node.get();
         StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < offset && i < string.length(); i++) {
+            stringBuilder.append(string.charAt(i));
+        }
+        stringBuilder.append(value);
+        node.set(value);
+        return true;
     }
 
-    public void append(String key, String value){
+    public int strLen(String key){
+        Assert.notNull(key, "key is not null");
+        Node node = holder.get(key);
+        if (!NodeTypeEnum.STRING.equals(node.type())) {
+            return -1;
+        }
+        String str = (String)node.get();
+        return str.length();
+    }
+
+    public boolean mSet( List<String[]> keys){
+        Assert.notNull(keys, "key is not null");
+
+        try {
+            for (String[] arr : keys) {
+                holder.put(arr[0], new StringNode(arr[0], arr[1].toCharArray()));
+            }
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean mSetNX(List<String[]> keys){
+        Assert.notNull(keys, "key is not null");
+
+        try {
+            for (String[] arr : keys) {
+                holder.putIfAbsent(arr[0], new StringNode(arr[0], arr[1].toCharArray()));
+            }
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean incr(String key){
+        Assert.notNull(key, "key is not null");
+
+        return incrBy(key, 1);
+    }
+
+    public boolean incrBy(String key,Integer increment){
+        Assert.notNull(key, "key is not null");
+        Assert.notNull(increment, "increment is not null");
+
+        Node node = holder.get(key);
+        if (!NodeTypeEnum.STRING.equals(node.type())) {
+            return false;
+        }
+
+        try {
+            String str = (String)node.get();
+            long num = Long.parseLong(str);
+            num += increment;
+            node.set(String.valueOf(num));
+            return true;
+        }catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean decr(String key){
+        Assert.notNull(key, "key is not null");
+
+        return incrBy(key, -1);
+    }
+
+    public boolean decrBy(String key, Integer increment){
+        Assert.notNull(key, "key is not null");
+        Assert.notNull(increment, "increment is not null");
+
+        return incrBy(key, -increment);
+    }
+
+    public boolean append(String key, String value){
         Assert.notNull(key, "key is not null");
         Assert.notNull(value, "value is not null");
 
+        Node node = holder.get(key);
+        if (!NodeTypeEnum.STRING.equals(node.type())) {
+            return false;
+        }
+
+        String str = (String)node.get();
+        node.set(str + value);
+        return true;
     }
 
 }
