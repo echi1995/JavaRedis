@@ -3,10 +3,8 @@ package com.echi.redisj.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
-import sun.jvm.hotspot.opto.Block;
 
 import java.util.List;
-import java.util.concurrent.BlockingDeque;
 
 /**
  * @author chengxiaoxiao
